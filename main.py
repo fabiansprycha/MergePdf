@@ -9,10 +9,18 @@ def main():
     exception = False
     st.title("📝 Merge PDF's") 
 
-    uploaded_file = st.file_uploader("Upload pdf files", type=("pdf"), accept_multiple_files=True) 
-
+    uploaded_file = st.file_uploader("Upload PDF files", type=("pdf"), accept_multiple_files=True) 
     if(uploaded_file):
+        st.divider()
+        st.caption('By default, whole PDF files will be merged into one file.')
+        st.caption('')
+        st.caption(' If you want to merge specific pages from a PDF file mark this option:')
+
+        mergeSpecifiedPages = st.toggle('Merge specific pages')
+
+        st.divider()
         st.header('Files preview')
+        st.caption('You can preview uploaded files here')
         for file in uploaded_file:
             base64_pdf = base64.b64encode(file.read()).decode('utf-8')
             pdf_display = F'<iframe src="data:application/pdf;base64,{base64_pdf}" width="700" height="1000" type="application/pdf"></iframe>'
@@ -20,10 +28,10 @@ def main():
                 st.markdown(pdf_display, unsafe_allow_html=True)
      
     if(len(uploaded_file) > 1):
-        mergeSpecifiedPages = st.toggle('Merge specified pages')
-
         if(mergeSpecifiedPages):
+            st.divider()
             st.header('Page picker')
+            st.caption('Specify what the merged PDF should look like by adding a new row with a file name and page. Right now new PDF will be created from the first pages of all uploaded files. For example, add a new row with the first PDF file name and page number 2 - then a new PDF will be created from the first pages of all uploaded files and the second page of the first file at the end.')
 
             df = pd.DataFrame(columns=['File', 'Page'])
 
@@ -34,7 +42,9 @@ def main():
 
             df = pd.DataFrame(df)
             edited_df  = st.data_editor(df, num_rows="dynamic", use_container_width=True)
-
+        
+        st.caption('')
+        st.divider()
         if st.button('Merge'):
             merger = PdfWriter()
 
