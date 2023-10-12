@@ -1,5 +1,4 @@
 import streamlit as st 
-import PyPDF2
 from PyPDF2 import PdfWriter 
 
 st.title("📝 Merge PDF's") 
