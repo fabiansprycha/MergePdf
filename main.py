@@ -6,7 +6,7 @@ import pandas as pd
 fileName = "merged-pdf.pdf"
 
 def main():
-
+    exception = False
     st.title("📝 Merge PDF's") 
 
     uploaded_file = st.file_uploader("Upload pdf files", type=("pdf"), accept_multiple_files=True) 
@@ -36,41 +36,34 @@ def main():
             edited_df  = st.data_editor(df, num_rows="dynamic", use_container_width=True)
 
         if st.button('Merge'):
+            merger = PdfWriter()
+
             if(len(uploaded_file) > 1):
                 if(mergeSpecifiedPages):
-                    try:
-                        merger = PdfWriter()
-                        df = df.reset_index()
-                        for index, row in edited_df.iterrows():
+                    df = df.reset_index()
+                    for index, row in edited_df.iterrows():
+                        try:
                             document = [x for x in uploaded_file if x.name == row['File']][0]
                             merger.append(fileobj=document, pages=(row['Page']-1, row['Page']))
-                        merger.write(fileName)
-                        merger.close()
-
-                        with open(fileName, 'rb') as f:
-                            file_data = f.read()
-                            st.download_button(
-                                label="Download PDF",
-                                file_name=fileName,
-                                mime="application/pdf",
-                                data=file_data,) 
-                    except ValueError:
-                        st.error('Please make sure that the file names/page numbers are valid')
+                        except IndexError:
+                            st.error('Please make sure that the file names/page numbers are valid')
+                            exception = True
+                            break
                 else:
-                    merger = PdfWriter()
                     for pdf in uploaded_file:
                         merger.append(pdf)
 
-                    merger.write(fileName)
-                    merger.close()
+                merger.write(fileName)
+                merger.close()
 
+                if(not exception):
                     with open(fileName, 'rb') as f:
                         file_data = f.read()
                         st.download_button(
                             label="Download PDF",
                             file_name=fileName,
                             mime="application/pdf",
-                            data=file_data,) 
+                            data=file_data,)
 
 if __name__ == '__main__':
     main()
