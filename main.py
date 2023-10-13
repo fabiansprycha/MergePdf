@@ -36,7 +36,7 @@ def main():
             df = pd.DataFrame(columns=['File', 'Page'])
 
             for pdf in uploaded_file:
-                new_row = {"File": f'{pdf.name}', 'Page': 1}
+                new_row = {"File": f'{pdf.name}', 'Page': "1"}
                 new_df = pd.DataFrame(new_row, index=[0])
                 df = pd.concat([df, new_df], ignore_index=True)
 
@@ -54,7 +54,12 @@ def main():
                     for index, row in edited_df.iterrows():
                         try:
                             document = [x for x in uploaded_file if x.name == row['File']][0]
-                            merger.append(fileobj=document, pages=(row['Page']-1, row['Page']))
+                            if('-' in str(row['Page'])):
+                                pages = row['Page'].split('-')
+                                for page in pages:
+                                    merger.append(fileobj=document, pages=(int(page)-1, int(page)))
+                            else:
+                                merger.append(fileobj=document, pages=(int(row['Page'])-1, int(row['Page'])))
                         except IndexError:
                             st.error('Please make sure that the file names/page numbers are valid')
                             exception = True
