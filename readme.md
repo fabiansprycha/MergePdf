@@ -16,6 +16,12 @@ You can check how it works here: https://merge-pdf.streamlit.app/
 - Merge multiple PDF files into a single PDF document.
   - Merge whole PDF documents into a single PDF document
   - Merge specified PDF pages into a single PDF document (By declaring specified pages or page ranges)
+
+## Run
+
+```
+python -m streamlit run your_script.py
+```
  
 ## Prerequisites
 
