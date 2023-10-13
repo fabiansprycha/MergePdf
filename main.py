@@ -31,7 +31,7 @@ def main():
         if(mergeSpecifiedPages):
             st.divider()
             st.header('Page picker')
-            st.caption('Specify what the merged PDF should look like by adding a new row with a file name and page. Right now new PDF will be created from the first pages of all uploaded files. For example, add a new row with the first PDF file name and page number 2 - then a new PDF will be created from the first pages of all uploaded files and the second page of the first file at the end.')
+            st.caption('Specify what the merged PDF should look like by adding a new row with a file name and page. Right now new PDF will be created from the first pages of all uploaded files. For example, add a new row with the first PDF file name and page range \'2-3\' - then a new PDF will be created from the first pages of all uploaded files and pages 2 and 3 from the first file at the end.')
 
             df = pd.DataFrame(columns=['File', 'Page'])
 
