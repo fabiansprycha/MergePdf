@@ -18,20 +18,11 @@ def main():
 
         mergeSpecifiedPages = st.toggle('Merge specific pages')
 
-        st.divider()
-        st.header('Files preview')
-        st.caption('You can preview uploaded files here')
-        for file in uploaded_file:
-            base64_pdf = base64.b64encode(file.read()).decode('utf-8')
-            pdf_display = F'<iframe src="data:application/pdf;base64,{base64_pdf}" width="700" height="1000" type="application/pdf"></iframe>'
-            with st.expander(file.name):
-                st.markdown(pdf_display, unsafe_allow_html=True)
-     
     if(len(uploaded_file) > 1):
         if(mergeSpecifiedPages):
             st.divider()
             st.header('Page picker')
-            st.caption('Specify what the merged PDF should look like by adding a new row with a file name and page. Right now new PDF will be created from the first pages of all uploaded files. For example, add a new row with the first PDF file name and page range \'2-3\' - then a new PDF will be created from the first pages of all uploaded files and pages 2 and 3 from the first file at the end.')
+            st.caption('Specify what the merged PDF should look like by adding a new row with a file name and page. Right now new PDF will be created from the first pages of all uploaded files. For example, add a new row with the first PDF file name and page range \'2-3\' - then a new PDF will be created from the first pages of all uploaded files and pages 2 and 3 of the first file at the end.')
 
             df = pd.DataFrame(columns=['File', 'Page'])
 
