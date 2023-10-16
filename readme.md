@@ -20,7 +20,7 @@ You can check how it works here: https://merge-pdf.streamlit.app/
 ## Run
 
 ```
-python -m streamlit run your_script.py
+python -m streamlit run main.py
 ```
  
 ## Prerequisites
