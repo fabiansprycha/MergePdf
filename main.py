@@ -47,8 +47,7 @@ def main():
                             document = [x for x in uploaded_file if x.name == row['File']][0]
                             if('-' in str(row['Page'])):
                                 pages = row['Page'].split('-')
-                                for page in pages:
-                                    merger.append(fileobj=document, pages=(int(page)-1, int(page)))
+                                merger.append(fileobj=document, pages=(int(pages[0])-1, int(pages[1])))
                             else:
                                 merger.append(fileobj=document, pages=(int(row['Page'])-1, int(row['Page'])))
                         except IndexError:
